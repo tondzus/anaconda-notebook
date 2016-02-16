@@ -24,6 +24,7 @@ export PATH=\"$PY2PATH:\$PATH\"" >> $BASH_RC
 
 # additional packages to install
 $CONDA2 install --yes seaborn
+$PIP2 install xgboost
 
 # python 2 environment
 #$CONDA3 create --yes -n python2 python=2 pip ipython pyzmq
