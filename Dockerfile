@@ -1,5 +1,5 @@
-FROM debian:jessie
-MAINTAINER Nick Roth "nlr06886@gmail.com"
+FROM ubuntu:14.04
+MAINTAINER Tomas Stibrany "tms.stibrany@gmail.com"
 
 # Link in our build files to the docker image
 ADD src/ /tmp
@@ -8,11 +8,7 @@ ADD src/ /tmp
 RUN export DEBIAN_FRONTEND=noninteractive && \
 	apt-get update && \
 	apt-get upgrade -y && \
-	apt-get install -y git \
-		wget \
-		bzip2 \
-		build-essential \
-		python-dev \
+	apt-get install -y git wget bzip2 build-essential libpython-dev build-essential \
 		gfortran \
 	&& apt-get clean
 
@@ -34,11 +30,11 @@ RUN  apt-get --purge -y autoremove wget && \
 	chown condauser:condauser /home/condauser -R
 
 # Set persistent environment variables for python3 and python2
-ENV PY2PATH=/home/condauser/anaconda3/envs/python2/bin
-ENV PY3PATH=/home/condauser/anaconda3/bin
+#ENV PY2PATH=/home/condauser/anaconda/envs/python2/bin
+ENV PY2PATH=/home/condauser/anaconda2/bin
 
 # Install the python2 ipython kernel
-RUN $PY2PATH/python $PY2PATH/ipython kernelspec install-self
+#RUN $PY2PATH/python $PY2PATH/ipython kernelspec install-self
 
 # Setup our environment for running the ipython notebook
 # Setting user here makes sure ipython notebook is run as user, not root
@@ -47,6 +43,6 @@ USER condauser
 ENV HOME=/home/condauser
 ENV SHELL=/bin/bash
 ENV USER=condauser
-WORKDIR /home/condauser/notebooks
+WORKDIR /home/condauser
 
-CMD $PY3PATH/ipython notebook
+CMD $PY2PATH/ipython notebook
